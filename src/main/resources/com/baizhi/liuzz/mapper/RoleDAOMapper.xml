@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.RoleDAO">
+
+    <select id="selectRole" resultType="String">
+        select r.role from t_user u join role_user ru on u.id = ru.user_id
+                join t_role r on r.id = ru.role_id
+                  where u.name = #{name}
+    </select>
+
+</mapper>

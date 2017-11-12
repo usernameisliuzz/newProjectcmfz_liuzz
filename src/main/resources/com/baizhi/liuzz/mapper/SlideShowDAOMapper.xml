@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.SlideShowDAO">
+    <insert id="insert" parameterType="com.baizhi.liuzz.entity.SlideShow">
+        insert into t_slideshow values(#{sli_id},#{sli_name},#{sli_oldname},#{sli_discription},#{sli_url},#{state},#{sli_size})
+    </insert>
+    
+    <select id="selectBy" parameterType="String" resultType="com.baizhi.liuzz.entity.SlideShow">
+        select sli_id,sli_url,sli_discription,state,sli_name,sli_oldname,sli_size from t_slideshow
+                  <where>
+                      <choose>
+                          <when test="id != null">
+                              sli_id = #{id}
+                          </when>
+                          <when test="state != null">
+                              state = #{state}
+                          </when>
+                      </choose>
+                  </where>
+    </select>
+
+    <select id="selectAll" resultType="com.baizhi.liuzz.entity.SlideShow">
+       select sli_id,sli_url,sli_discription,state,sli_name,sli_oldname,sli_size from t_slideshow
+    </select>
+
+    <update id="update" parameterType="com.baizhi.liuzz.entity.SlideShow">
+        update t_slideshow set sli_url=#{sli_url},sli_discription=#{sli_discription},state=#{state},sli_name=#{sli_name},sli_oldname=#{sli_oldname},sli_size=#{sli_size}
+              where sli_id =#{sli_id}
+    </update>
+</mapper>

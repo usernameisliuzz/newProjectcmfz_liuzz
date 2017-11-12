@@ -1,0 +1,27 @@
+[{
+	"id1":"21",
+	"name1":"小张",
+	"Persons1":"小张小",
+	"Begin Date1":"1995",
+	"End Date1":"1995",
+	"children":[{
+		"id":"211",
+		"name":"小王",
+		"Persons":"小王小",
+		"Begin Date":"1996",
+		"End Date":"1996"
+	}]
+},{
+	"id1":"22",
+	"name1":"小小",
+	"Persons1":"小小小",
+	"Begin Date1":"1111",
+	"End Date1":"2222",
+	"children":[{
+		"id":"221",
+		"name":"小小",
+		"Persons":"小小小",
+		"Begin Date":"1111",
+		"End Date":"2222"
+	}]
+}]

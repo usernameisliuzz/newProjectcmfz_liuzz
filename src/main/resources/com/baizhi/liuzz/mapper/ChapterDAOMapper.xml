@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.ChapterDAO">
+    <insert id="insert" parameterType="com.baizhi.liuzz.entity.Chapter">
+        insert into t_chapter values(#{id},#{fal_id},#{name},#{ch_url},#{ch_size},#{ch_state},#{ch_newName})
+    </insert>
+    
+    <update id="update" parameterType="com.baizhi.liuzz.entity.Chapter">
+        update t_chapter set ch_state=#{ch_state} where id=#{id}
+    </update>
+
+</mapper>

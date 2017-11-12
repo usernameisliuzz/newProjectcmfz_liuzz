@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--配置shiroFilter-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--引入安全管理器-->
+        <property name="securityManager" ref="securityManager"/>
+        <!--配置loginUrl-->
+        <property name="loginUrl" value="/back/page/login.jsp"/>
+        <!--配置拦截器规则-->
+        <property name="filterChainDefinitions">
+            <value>
+                /user/landing = anon
+                /user/getImage = anon
+                /back/page/main.jsp = user
+                /user/logout = logout
+                /back/page/** = authc
+                /back/** = anon
+                /** =  authc
+            </value>
+        </property>
+    </bean>
+
+    <!--创建核心的安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--引入自定义realm-->
+        <property name="realm" ref="authenByAccountRealm"/>
+        <!--引入remember管理器-->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+    <!--声明自定义realm对象-->
+    <bean id="authenByAccountRealm" class="com.baizhi.liuzz.realm.AuthenByAccountRealm">
+        <!--引入加密匹配器-->
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+    <!--创建remember管理器-->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="cookie"/>
+    </bean>
+    <!--创建cookie对象-->
+    <bean id="cookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <!--配置的名字-->
+        <property name="name" value="rememberMe"/>
+        <!--配置cookie的存活时间-->
+        <property name="maxAge" value="300"/>
+    </bean>
+
+    <!--申明hashCredentialMasther-->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <!--申明加密的方式-->
+        <property name="hashAlgorithmName" value="md5"/>
+        <!--声明是否加盐-->
+        <property name="hashSalted" value="true"/>
+        <!--声明散列次数-->
+        <property name="hashIterations" value="2"/>
+    </bean>
+
+    <!--开启aop切面 设置创建代理类方式为cglib-->
+    <aop:config proxy-target-class="true"></aop:config>
+
+    <!--申明切面类 -->
+    <bean id="advice" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+ </beans>

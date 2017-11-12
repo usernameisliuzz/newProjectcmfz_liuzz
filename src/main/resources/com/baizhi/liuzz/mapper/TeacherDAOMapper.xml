@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.TeacherDAO">
+    <insert id="insert" parameterType="com.baizhi.liuzz.entity.Teacher">
+        insert into t_teacher values(#{id},#{tea_name},#{addr_photo},#{state})
+    </insert>
+
+    <update id="update" parameterType="com.baizhi.liuzz.entity.Teacher">
+        update t_teacher set state=#{state} where id=#{id}
+    </update>
+
+    <select id="selectAll" resultType="com.baizhi.liuzz.entity.Teacher">
+        select id,tea_name,addr_photo,state from t_teacher
+    </select>
+</mapper>

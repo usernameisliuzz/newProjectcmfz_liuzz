@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.AlbumDAO">
+    <resultMap id="albumResultMap" type="com.baizhi.liuzz.entity.Album">
+        <id column="al_id" property="id"/>
+        <result column="al_name" property="name"/>
+        <result column="al_author" property="al_author"/>
+        <result column="al_announcer" property="al_announcer"/>
+        <result column="al_number" property="al_number"/>
+        <result column="al_pubdate" property="al_pubdate"/>
+        <result column="al_content" property="al_content"/>
+        <result column="al_state" property="state"/>
+        <collection property="children" javaType="list" ofType="com.baizhi.liuzz.entity.Chapter">
+            <id column="ch_id" property="id"/>
+            <result column="ch_name" property="name"/>
+            <result column="ch_url" property="ch_url"/>
+            <result column="ch_size" property="ch_size"/>
+            <result column="ch_state" property="ch_state"/>
+            <result column="ch_newName" property="ch_newName"/>
+            <result column="counts" property="counts"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAll" resultMap="albumResultMap">
+        select al.id al_id,al.name al_name,al_author,al_announcer,al_number,al_pubdate,al_content,al.state al_state,
+							ch.id ch_id,ch.name ch_name,ch_url,ch_size,ch_state,ch_newName,COUNT(ch.id) counts
+					from t_album al join t_chapter ch on al.id = fal_id
+    </select>
+
+</mapper>

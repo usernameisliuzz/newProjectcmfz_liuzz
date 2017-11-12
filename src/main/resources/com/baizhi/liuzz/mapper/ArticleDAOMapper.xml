@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.ArticleDAO">
+        <insert id="insert" parameterType="com.baizhi.liuzz.entity.Article">
+            insert into t_article values(#{id},#{tea_id},#{art_name},#{pubDate},#{addr_picture},#{content},#{state})
+        </insert>
+
+        <update id="update" parameterType="String" >
+            update t_article set state=#{state} where id=#{id}
+        </update>
+        <resultMap id="ArticleResultMap" type="com.baizhi.liuzz.entity.Article">
+            <id column="art_id" property="id"/>
+            <result column="tea_id" property="tea_id"/>
+            <result column="art_name" property="art_name"/>
+            <result column="pubDate" property="pubDate"/>
+            <result column="addr_picture" property="addr_picture"/>
+            <result column="content" property="content"/>
+            <result column="art_state" property="state"/>
+            <collection property="teacher" javaType="com.baizhi.liuzz.entity.Teacher">
+                <id column="id" property="id"/>
+                <result column="tea_name" property="tea_name"/>
+                <result column="addr_photo" property="addr_photo"/>
+                <result column="tea_state" property="state"/>
+            </collection>
+        </resultMap>
+        <select id="select" resultMap="ArticleResultMap">
+            select a.id art_id,tea_id,art_name,pubDate,addr_picture,content,a.state art_state,
+                  t.id,tea_name,addr_photo,t.state tea_state
+                      from t_teacher t join t_article a on t.id = a.tea_id
+					  <where>
+                          <choose>
+                              <when test="tea_id != null">
+                                  tea_id =#{tea_id}
+                              </when>
+                          </choose>
+                      </where>
+        </select>
+</mapper>

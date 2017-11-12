@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.CountDAO">
+    <select id="select" parameterType="String" resultType="com.baizhi.liuzz.entity.Count">
+        select count(*) as counts from t_client where TO_DAYS(NOW())-TO_DAYS(registerDate) &lt; #{num}
+    </select>
+
+    <select id="maxDate" resultType="com.baizhi.liuzz.entity.Client">
+        select registerDate from t_client c order by registerDate limit 1
+    </select>
+
+</mapper>

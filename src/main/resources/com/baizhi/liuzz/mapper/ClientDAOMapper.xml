@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.ClientDAO">
+    <insert id="insert" parameterType="com.baizhi.liuzz.entity.Client">
+        insert into t_client values(#{id},#{phone},#{password},#{state},#{alias},#{name},#{sex},#{signature},#{favicon},#{tea_id},#{address},#{registerDate})
+    </insert>
+
+    <update id="update" parameterType="com.baizhi.liuzz.entity.Client">
+        update t_client set state=#{state} where id=#{id}
+    </update>
+
+    <resultMap id="ClientResultMap" type="com.baizhi.liuzz.entity.Client">
+        <id column="id" property="id"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="state" property="state"/>
+        <result column="alias" property="alias"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="signature" property="signature"/>
+        <result column="favicon" property="favicon"/>
+        <result column="address" property="address"/>
+        <result column="registerDate" property="registerDate"/>
+        <association property="teacher" javaType="com.baizhi.liuzz.entity.Teacher">
+            <id column="tea_id" property="id"/>
+            <result column="tea_name" property="tea_name"/>
+            <collection property="articles" javaType="list" ofType="com.baizhi.liuzz.entity.Article">
+                <id column="art_id" property="id"/>
+                <result column="art_name" property="art_name"/>
+                <result column="pubDate" property="pubDate"/>
+                <result column="content" property="content"/>
+            </collection>
+        </association>
+    </resultMap>
+    <select id="select" resultMap="ClientResultMap">
+        select c.id,c.phone,c.password,c.state,c.alias,c.name,c.sex,c.signature,c.favicon,c.address,c.registerDate,
+               t.id tea_id,t.tea_name,
+              a.id art_id,a.art_name,a.pubDate,a.content
+                  from t_client c join t_teacher t on c.tea_id = t.id
+                      join t_article a on t.id = a.tea_id
+                          limit #{page},#{rows}
+                              <where>
+                                  <choose>
+                                      <when test="phone != null">
+                                          c.phone =#{phone}
+                                      </when>
+                                  </choose>
+                              </where>
+    </select>
+
+    <select id="selectCount" resultType="Integer">
+        select COUNT(*) from t_client
+    </select>
+
+    <select id="selectDownClient" resultType="com.baizhi.liuzz.entity.Client">
+        select id,phone,password,state,alias,name,sex,signature,favicon,
+                address,registerDate,tea_id
+                    from t_client
+    </select>
+</mapper>

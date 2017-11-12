@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.liuzz.dao.ClientSideDAO">
+
+    <select id="selectAllSlideShow" resultType="com.baizhi.liuzz.entity.Head">
+        select sli_url thumbnail,sli_name desc1,sli_id id from t_slideshow where state = 'true'
+    </select>
+    
+    <select id="selectAllAlbum" resultType="com.baizhi.liuzz.entity.Body">
+        select al_url thumbnail,name title,al_author author,al_number set_count,al_pubdate create_date from t_album where state = 'true'
+    </select>
+
+
+    <select id="selectAllArticle" resultType="com.baizhi.liuzz.entity.Body1">
+        select a.id art_id,a.tea_id,addr_picture thumbnail,art_name title,pubDate create_date,
+			   tea_name author
+                    from t_teacher t join t_article a on t.id=a.tea_id
+    </select>
+</mapper>
